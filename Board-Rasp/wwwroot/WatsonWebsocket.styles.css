@@ -1,0 +1,49 @@
+/* _content/WatsonWebsocket/Pages/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-mpl0cy3gac] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-mpl0cy3gac] {
+  color: #0077cc;
+}
+
+.btn-primary[b-mpl0cy3gac] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-mpl0cy3gac], .nav-pills .show > .nav-link[b-mpl0cy3gac] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-mpl0cy3gac] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-mpl0cy3gac] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-mpl0cy3gac] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-mpl0cy3gac] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-mpl0cy3gac] {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
