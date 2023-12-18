@@ -1,0 +1,197 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CrystalClient.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="500"
+        x:Class="CrystalClient.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="CrystalClient"
+        Width="1000" Height="500">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+
+  <Grid ShowGridLines="True">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="0.5*"></RowDefinition>
+      <RowDefinition Height="420"></RowDefinition>
+      <RowDefinition Height="0.5*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="0.9*"></ColumnDefinition>
+      <ColumnDefinition Width="600"></ColumnDefinition>
+      <ColumnDefinition Width="0.1*"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+   
+    <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right">
+    <Border 
+         BorderBrush="SteelBlue" BorderThickness="2"
+        CornerRadius="3" Padding="4" BoxShadow="5 5 10 4 Gray" Height="420" Width="330">
+        <Border.Styles>
+          <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{TemplateBinding Background}" />
+            <Setter Property="BorderThickness" Value="2" />
+          </Style>
+        </Border.Styles>
+
+      <TabControl TabStripPlacement="Top" >
+        
+        <TabItem Header="Offline" FontSize="20" Width="100" Height="50"  IsSelected="True">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="5">
+          <StackPanel Orientation="Horizontal" Spacing="10">
+            <TextBlock FontSize="18" Text="Кол-во игроков:" />
+            <RadioButton Content="2" Command="{Binding SetPlayersCount}" GroupName="PlayersCount">
+            <RadioButton.CommandParameter>
+              <sys:Int32>2</sys:Int32>
+            </RadioButton.CommandParameter>
+            </RadioButton>
+            <RadioButton Content="3" Command="{Binding SetPlayersCount}" GroupName="PlayersCount"  >
+              <RadioButton.CommandParameter>
+                <sys:Int32>3</sys:Int32>
+              </RadioButton.CommandParameter>
+            </RadioButton>
+            <RadioButton Content="4" Command="{Binding SetPlayersCount}" IsChecked="True" GroupName="PlayersCount" > 
+              <RadioButton.CommandParameter>
+                <sys:Int32>4</sys:Int32>
+              </RadioButton.CommandParameter>
+            </RadioButton>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal"  Spacing="10">
+            <TextBlock FontSize="18" Text="Шагов за ход:" />
+            <RadioButton Content="2" Command="{Binding SetPlayersSteps}" GroupName="PlayersSteps">
+              <RadioButton.CommandParameter>
+                <sys:Int32>2</sys:Int32>
+              </RadioButton.CommandParameter>
+            </RadioButton>
+            <RadioButton Content="3" Command="{Binding SetPlayersSteps}" GroupName="PlayersSteps"  >
+              <RadioButton.CommandParameter>
+                <sys:Int32>3</sys:Int32>
+              </RadioButton.CommandParameter>
+            </RadioButton>
+            <RadioButton Content="4" Command="{Binding SetPlayersSteps}"  IsChecked="True" GroupName="PlayersSteps" >
+              <RadioButton.CommandParameter>
+                <sys:Int32>4</sys:Int32>
+              </RadioButton.CommandParameter>
+            </RadioButton>
+
+          </StackPanel>
+          <StackPanel  Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Spacing="5">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock FontSize="16" Text="Осталось ходов: "/>
+              <TextBlock FontSize="16" Text="{Binding CurPlayer.StepsLeft}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock FontSize="16" Text="Осталось фишек: "/>
+              <TextBlock FontSize="16" Text="{Binding CurPlayer.CountThings}"/>
+            </StackPanel>
+
+          </StackPanel>
+
+
+          <Button Background="White" BorderThickness="3" BorderBrush="SteelBlue" Command="{Binding StartGame}" FontSize="16" Content="Start New Game" />
+        </StackPanel>
+        </TabItem>
+        <TabItem Header="Online" FontSize="20">
+          <StackPanel Orientation="Horizontal" Spacing="5" VerticalAlignment="Top" HorizontalAlignment="Left">
+          <Image Source="/Assets/avalonia-logo.ico" Width="50" Height="50"></Image>
+            <StackPanel Orientation="Vertical">
+              <TextBlock Text="Name: " FontSize="18"  />
+              <TextBox Text="{Binding PlayerName}" Watermark="{Binding PlayerName}"/>
+            </StackPanel>
+            <Button Content="Connect to Server" FontSize="18" BorderThickness="2" Background="White" BorderBrush="SteelBlue"/>
+          </StackPanel>
+        </TabItem>
+      </TabControl>
+
+    </Border>
+    </StackPanel>
+
+
+    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+      <TextBlock FontSize="18" Text="Ход игрока "/>
+      <TextBlock FontSize="18" Text="{Binding CurPlayer.Color}"  Foreground="{Binding CurPlayer.Color}"/>
+      
+    </StackPanel>
+    <StackPanel Grid.Row="1" Grid.Column="1" ZIndex="2">
+
+      <Border
+            BorderBrush="SteelBlue"
+            BorderThickness="2"
+            CornerRadius="3"
+            Padding="4"
+            BoxShadow="5 5 10 4 Gray"
+            Height="420"
+            Width="600">
+        <Border.Styles>
+          <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{TemplateBinding Background}" />
+            <Setter Property="BorderThickness" Value="2" />
+          </Style>
+        </Border.Styles>
+
+        <!--////////////////// -->
+        <ItemsControl Items="{Binding Board}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border  BorderBrush="SteelBlue"
+                 BorderThickness="1"
+                 CornerRadius="2">
+                <Button Width="50" Height="35"
+                        Background="{Binding Color}"
+                        Command="{Binding $parent[ItemsControl].DataContext.DoCellCommand}"
+                  CommandParameter="{Binding .}">
+                  <StackPanel>
+                    <TextBlock FontSize="10" Text="{Binding Color}"/>
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock FontSize="10" Text="{Binding X}"/>
+                      <TextBlock FontSize="10" Text="   "/>
+                      <TextBlock FontSize="10" Text="{Binding Y}"/>
+                      <TextBlock FontSize="10" Text="   "/>
+                      <TextBlock FontSize="10" Text="{Binding DistanceFromCurCell}"/>
+
+                    </StackPanel>
+                  </StackPanel>
+                </Button>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <UniformGrid Columns="12" Rows="12"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+
+        </ItemsControl>
+      </Border>
+
+    </StackPanel>
+    <StackPanel Grid.Row="1" Grid.Column="1" IsVisible="{Binding IsGameOver}" ZIndex="3" VerticalAlignment="Center">
+      <Border
+        Background="LightGray"
+        BorderBrush="SteelBlue"
+        BorderThickness="2"
+        CornerRadius="3"
+        Padding="4"
+        BoxShadow="5 5 10 4 Gray"
+        Height="100"
+        Width="200">
+        
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <TextBlock FontSize="22" Text="Game Over" />
+          <StackPanel Orientation="Horizontal">
+            <TextBlock FontSize="18" Text="Winner is "/>
+            <TextBlock FontSize="18" Text="{Binding CurPlayer.Color}"  Foreground="{Binding CurPlayer.Color}"/>
+          </StackPanel>
+        </StackPanel>
+
+      </Border>
+    </StackPanel>
+
+    
+  </Grid>
+
+</Window>
